@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("./sqlConnection");
+const sequelize = require("./Sequelize");
 
 const User = sequelize.define(
   "User",
@@ -36,7 +36,7 @@ const User = sequelize.define(
       }
     },
     TelQuick: {
-      type: DataTypes.NUMBER
+      type: DataTypes.STRING
       // validate: {
       //   isNumeric: false,
       //   notContains: "-",
@@ -71,6 +71,5 @@ const User = sequelize.define(
     timestamps: false
   }
 );
-
 
 module.exports = User;
