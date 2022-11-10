@@ -1,18 +1,17 @@
+// import external libraries
 const express = require("express");
-
 const dotEnv = require("dotenv");
+const bodyParser = require("body-parser");
+
 //* load config
 dotEnv.config({ path: "./config/.env" });
 
-const bodyParser = require("body-parser");
-
+// Import internal files
 const { setStatics } = require("./utils/statics");
 const loginPage = require("./routes/login");
 const main = require("./routes/main");
 const changePassword = require("./routes/changePassword");
-
 const getUserRoute = require("./routes/getUserRoute");
-
 const sequelize = require("./models/Sequelize");
 
 const app = express();
@@ -25,6 +24,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+// Set statics included public folder and css libraries
 setStatics(app);
 
 // All routes
