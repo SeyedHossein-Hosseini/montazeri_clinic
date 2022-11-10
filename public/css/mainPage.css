@@ -1,0 +1,108 @@
+@font-face {
+    font-family: Bnazanin;
+    src: url('../font/BNazanin.ttf'),
+        url('../font/BNazanin.woff')
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Bnazanin;
+    direction: rtl;
+}
+
+.navbar-top {
+    overflow: hidden;
+    background-color: #E7E7E7;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+#clinicTitle {
+    font-size: 18px;
+}
+
+#sickFullname {
+    font-size: 25px;
+    font-weight: 800;
+    margin-right: 10px;
+}
+
+#user_icon {
+    color: white;
+    background-color: rgb(62, 88, 255);
+    padding: 14px;
+    border-radius: 50%;
+    transition: 300ms;
+}
+
+#user_icon:hover {
+    cursor: pointer;
+    background-color: rgb(5, 38, 255);
+}
+
+#imagesSection {
+    margin-top: 60px;
+}
+
+#imagesContainer div {
+    border-radius: 10px;
+    border: 8px solid rgb(0, 195, 0);
+    margin: 20px;
+    width: 300px;
+    height: auto;
+    background-color: white;
+}
+
+#imagesContainer div img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.fa-download {
+    cursor: pointer;
+    opacity: 0.7;
+    color: rgb(56, 56, 56);
+    transition: 300ms;
+    font-size: 20px;
+}
+
+.fa-download:hover {
+    opacity: 1;
+    color: black;
+}
+
+.imageCard {
+    position: relative;
+    cursor: pointer;
+}
+
+#statusBadge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: rgb(0, 195, 0);
+    padding: 2px 10px;
+    border-radius: 5px;
+}
+
+.imageDate {
+    margin-right: 10px;
+}
+
+
+@media (max-width: 700px) {
+    #clinicTitle {
+        display: none;
+    }
+    .fa-hospital-o {
+        margin-top: 8px;
+        font-size: 30px;
+    }
+    #sickFullname {
+        font-size: 20px;
+    }
+}
