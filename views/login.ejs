@@ -1,0 +1,56 @@
+<%- include ('./layouts/head.ejs') %>
+    <link rel="stylesheet" href="css/validationPages.css">
+
+    <body>
+        <section class="loginPage">
+            <div class="container-fluid loginLayout">
+                <div class="row h-100">
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" id="loginForm">
+                        <div class="d-flex flex-column" id="formElements">
+                            <div class="loginHeader pt-2">
+                                <h3 class="text-center" style="color:#727A80; font-weight: bold;">صفحه ی ورود کاربران
+                                </h3>
+                                <div class="helpUser">
+                                    <ul>
+                                        <li>کلمه عبور در ابتدا، همان شماره تماس شما بدون صفر می باشد</li>
+                                        <li>در صورت مواجه با خطای ثبت نشدن شماره تماس، به حسابداری مراجعه کنید</li>
+                                        <li>با ورود به صفحه ی کاربری خود، می توانید کلمه ی عبور خود را تغییر دهید</li>
+                                        <li>در صورت فراموشی رمز عبور، دکمه ی بازیابی کلمه عبور را بزنید تا شماره تماس
+                                            شما رمز عبورتان شود</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="loginFormInputs flex-fill">
+                                <form class="d-flex flex-column pt-3 mx-auto" style="width:75%; min-width:300px;"
+                                     action="/main" method="POST">
+                                    <label for="docNumber">شماره پرونده: </label>
+                                    <input type="number" name="docNumber" id="docNumber" value="" autofocus required>
+                                    <label for="Password" class="mt-3">کلمه عبور: </label>
+                                    <input type="password" name="loginPassword" id="loginPassword" required>
+                                    <img src="img/invisible.png" id="PassVisibilityImg" width="24px"
+                                        style="margin-top:-26px ;" alt="password visibility">
+                                    <div class="d-block w-100 text-center">
+                                        <input type="submit"
+                                            class="loginSubmit px-lg-5 px-xl-5 px-md-2 py-1 mt-xl-5 mt-lg-4"
+                                            value="ورود" />
+                                        <input type="button"
+                                            class="passwordReset px-lg-5 px-xl-5 px-md-2 py-1 mt-xl-5 mt-lg-4"
+                                            value="بازیابی رمز عبور" />
+                                    </div>
+                                    <% if(displayMessage){ %>
+                                        <span id="loginError" class="text-center"><%= message %></span>
+                                        <% } %>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <%- include('./layouts/clinicInformation.ejs') %>
+                </div>
+            </div>
+        </section>
+    </body>
+
+    <script src="js/secondPasswordVisibility.js"></script>
+    <script src="js/validateForm.js"></script>
+
+    </html>
