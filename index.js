@@ -13,6 +13,7 @@ const main = require("./routes/main");
 const changePassword = require("./routes/changePassword");
 const getUserRoute = require("./routes/getUserRoute");
 const sequelize = require("./models/Sequelize");
+const readImages = require("./routes/ReadUserImagesRoutes");
 
 const app = express();
 
@@ -31,9 +32,10 @@ setStatics(app);
 app.use(loginPage);
 app.use(changePassword);
 app.use(main);
+app.use(readImages);
 app.get("/users", getUserRoute);
 app.get("/", (req, res) => {
-  res.send("Hello !!!!");
+  res.redirect("login");
 });
 app.get("*", (req, res) => {
   res.render("404");
