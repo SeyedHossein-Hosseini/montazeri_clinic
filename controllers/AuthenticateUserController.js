@@ -1,12 +1,60 @@
 const User = require("../models/User");
 
+const jwt = require("jsonwebtoken");
+
+// based on seconds
+const maxAge = 50;
+
+const createToken = (id) => {
+  let data = { time: Date(), userId: id };
+  return jwt.sign(data, process.env.SECRET_KEY, {
+    expiresIn: maxAge * 100
+  });
+};
+
 module.exports.authenticateUser = async (req, res) => {
-  const {docNumber, password} = req.body;
-  
-  if(docNumber == '') {
-    console.log();
+  const { docNumber, password } = req.body;
+
+  const errors = { docNumber: "", password: "" };
+
+  if (docNumber == "" || password == "") {
+    if (docNumber == "") {
+      errors.docNumber = "Empty Doc number";
+    }
+
+    if (password == "") {
+      errors.password = "Empty password";
+    }
+    res.status(400).json({ errors });
+    return;
+  }
+
+  try {
+    const user = await User.findByPk(docNumber);
+    if (user) {
+      if (user.Tel == password || user.TelQuick == password) {
+        const token = createToken(user.docNumber);
+        res.cookie("MontazeriClinicJWT", token, {
+          maxAge: maxAge * 1000 * 1000
+        });
+        res.status(200).json({ user });
+      } else {
+        errors.password = "Incorrect password";
+        res.status(400).json({ errors });
+      }
+    } else {
+      errors.docNumber = "Not found any user with this dov number";
+      res.status(400).json({ errors });
+    }
+  } catch (err) {
+    console.log(req.body);
+    res
+      .status(400)
+      .json({ error: "An error happened in fetching data to database" });
+    console.log(err);
   }
   // console.log(user.IDsick);
+
   // console.log(user.FNamesick);
   // console.log(user.LNamesick);
   // const users = await User.sum("IDSick");
@@ -17,4 +65,12 @@ module.exports.authenticateUser = async (req, res) => {
   // console.log("A User: ", JSON.stringify(users, null, 2));
 
   // res.json(users);
+};
+
+module.exports.logout_get = (req, res) => {
+  res.cookie("MontazeriClinicJWT", "", {
+    maxAge: 1
+  });
+
+  res.redirect("/login");
 };

@@ -12,8 +12,16 @@ form.addEventListener("submit", async (e) => {
       }),
       headers: { "Content-Type": "application/json" }
     });
-    // let data = JSON.parse(result);
-    console.log(result);
+    let data = await result.json();
+
+    if (data.user) {
+      location.assign("/main");
+      console.log("successfully loged in");
+    }
+    if (data.errors) {
+      console.log(data);
+    }
+
   } catch (err) {
     console.log(err);
   }
