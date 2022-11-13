@@ -21,10 +21,9 @@
                                 </div>
                             </div>
                             <div class="loginFormInputs flex-fill">
-                                <form class="d-flex flex-column pt-3 mx-auto" style="width:75%; min-width:300px;"
-                                     action="/main" method="POST">
+                                <form class="loginForm d-flex flex-column pt-3 mx-auto" style="width:75%; min-width:300px;">
                                     <label for="docNumber">شماره پرونده: </label>
-                                    <input type="number" name="docNumber" id="docNumber" value="" autofocus required>
+                                    <input type="text" name="docNumber" id="docNumber" value="" autofocus required>
                                     <label for="Password" class="mt-3">کلمه عبور: </label>
                                     <input type="password" name="loginPassword" id="loginPassword" required>
                                     <img src="img/invisible.png" id="PassVisibilityImg" width="24px"
@@ -51,6 +50,8 @@
     </body>
 
     <script src="js/secondPasswordVisibility.js"></script>
-    <script src="js/validateForm.js"></script>
+    <script src="js/validateDocNumberField.js"></script>
+    <script src="js/sendLoginCredentials.js"></script>
+    <script></script>
 
     </html>

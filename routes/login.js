@@ -1,5 +1,9 @@
 const express = require("express");
 
+const {
+  authenticateUser
+} = require("../controllers/AuthenticateUserController");
+
 const router = express.Router();
 
 router.get("/login", (req, res) => {
@@ -10,8 +14,10 @@ router.get("/login", (req, res) => {
     Tel: "",
     TelQuick: "",
     FNamesick: "",
-    LNamesick: "",
+    LNamesick: ""
   });
 });
+
+router.post("/login", authenticateUser);
 
 module.exports = router;

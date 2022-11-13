@@ -2,27 +2,12 @@ const path = require("path");
 const fs = require("fs");
 
 const { smb2Client } = require("../models/SMBClient");
+const { removeAllFiles } = require("../utils/removeAllImages");
 
 // var docNumber = 45;
-var docNumber = 120;
+var docNumber = 111;
 const ImageDirectory = path.resolve(__dirname, "..", "temp");
 
-// clean the folder at first
-const removeAllFiles = async () => {
-  if (fs.existsSync(ImageDirectory)) {
-    fs.readdir(ImageDirectory, (err, files) => {
-      if (err) throw err;
-
-      for (const file of files) {
-        fs.unlink(path.join(ImageDirectory, file), (err) => {
-          if (err) throw err;
-        });
-      }
-    });
-  } else {
-    fs.mkdirSync(ImageDirectory);
-  }
-};
 
 module.exports.readImages = async (req, res) => {
   await removeAllFiles();

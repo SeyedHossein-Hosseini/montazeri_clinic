@@ -10,7 +10,7 @@ const User = sequelize.define(
       unique: true,
       referencesKey: "id",
       primaryKey: true
-      //   primaryKey:true
+
       //   defaultValue: "Ali" instead of null
     },
     FNamesick: {
