@@ -32,6 +32,18 @@ module.exports.authenticateUser = async (req, res) => {
   try {
     const user = await User.findByPk(docNumber);
     if (user) {
+      let pass1 = user.Tel;
+      let pass2 = user.TelQuick;
+      // remove all characters except numbers
+      pass1 = pass1.replace(/\D/g, "");
+      pass2 = pass2.replace(/\D/g, "");
+      console.log(pass1, pass2);
+
+      if (pass1 == "" && pass2 == "") {
+        errors.password = "There is no telephone number in database";
+        res.status(400).json({ errors });
+        return;
+      }
       if (user.Tel == password || user.TelQuick == password) {
         const token = createToken(user.docNumber);
         res.cookie("MontazeriClinicJWT", token, {

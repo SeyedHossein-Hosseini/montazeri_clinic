@@ -23,17 +23,17 @@ const User = sequelize.define(
     },
     Tel: {
       type: DataTypes.STRING,
-      get() {
-        const rawValue = this.getDataValue("Tel");
-        // contains letters in Tel
-        var regExp = /[a-zA-Z]/g;
-        if (!rawValue || regExp.test(rawValue)) {
-          return "000000000";
-          // throw new Error(`Tel should consists only of numbers !!!!`);
-        } else {
-          return rawValue;
-        }
-      }
+      // get() {
+      //   const rawValue = this.getDataValue("Tel");
+      //   // contains letters in Tel
+      //   var regExp = /[a-zA-Z]/g;
+      //   if (!rawValue || regExp.test(rawValue)) {
+      //     return "000000000";
+      //     // throw new Error(`Tel should consists only of numbers !!!!`);
+      //   } else {
+      //     return rawValue;
+      //   }
+      // }
     },
     TelQuick: {
       type: DataTypes.STRING

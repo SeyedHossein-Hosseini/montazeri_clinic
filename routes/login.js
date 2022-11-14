@@ -1,5 +1,7 @@
 const express = require("express");
 
+
+
 const {
   authenticateUser
 } = require("../controllers/AuthenticateUserController");
@@ -7,6 +9,7 @@ const {
 const router = express.Router();
 
 router.get("/login", (req, res) => {
+  console.log(req.cookies);
   res.render("login", {
     message: "",
     displayMessage: false,
