@@ -11,13 +11,10 @@ dotEnv.config({ path: "./config/.env" });
 const { setStatics } = require("./utils/statics");
 const loginPage = require("./routes/login");
 const changePassword = require("./routes/changePassword");
-const getUserRoute = require("./routes/getUserRoute");
+// const getUserRoute = require("./routes/getUserRoute");
 const sequelize = require("./models/Sequelize");
-const readImages = require("./routes/ReadUserImagesRoutes");
-const {
-  checkUser,
-  handleUserAuth
-} = require("./middleware/authenticateUserByToken");
+const { readImages } = require("./controllers/ReadUserImagesController");
+const { handleUserAuth } = require("./middleware/authenticateUserByToken");
 
 const app = express();
 
@@ -34,18 +31,18 @@ app.set("views", "views");
 setStatics(app);
 
 // All routes
-app.get("*", checkUser);
+// app.get("*", checkUser);
 app.use(loginPage);
 app.use(changePassword);
-app.get("/main", handleUserAuth, (req, res) => {
+app.get("/main", handleUserAuth, readImages, (req, res) => {
   res.render("mainPage", {
     fname: "",
     lname: "",
     id_sick: ""
   });
 });
-app.use(readImages);
-app.get("/users", getUserRoute);
+// app.use(readImages);
+// app.get("/users", getUserRoute);
 app.get("/", (req, res) => {
   res.redirect("login");
 });
