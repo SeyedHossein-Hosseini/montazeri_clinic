@@ -58,14 +58,15 @@ module.exports.readImages = async (req, res, next) => {
                       }
                       console.log({ element, image });
                       img = images.toString("base64");
-                      var im = {
-                        imageData: img,
-                        name: image,
-                        number: element
-                      };
+                      var im = img;
+                      // {
+                      //   imageData: img,
+                      //   name: image,
+                      //   number: element
+                      // };
                       fs.writeFile(
-                        `${ImageDirectory}/${image}.json`,
-                        JSON.stringify(im),
+                        `${ImageDirectory}/${image}.txt`,
+                        im,
                         (err) => {
                           if (err) {
                             res.json({
@@ -89,10 +90,21 @@ module.exports.readImages = async (req, res, next) => {
     console.log(`An error accured in fetching images`);
     return;
   }
-  // setTimeout(() => {
-    next();
-  // }, 2000);
+
+  next();
 };
 
-
-
+const sendImagesToClient = async () => {
+  var images = [];
+  fs.readdirSync(ImageDirectory, (err, files) => {
+    files.forEach((file) => {
+      var img = null;
+      let imagePath = path.join(ImageDirectory, file);
+      fs.readFile(imagePath, async (err, data) => {
+        let image = data.toString();
+        img = { image, file };
+        images.push(img);
+      });
+    });
+  });
+};
