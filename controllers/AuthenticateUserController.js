@@ -54,7 +54,9 @@ module.exports.authenticateUser = async (req, res) => {
         let id = user.IDsick.toString();
         const token = createToken(id);
         res.cookie("MontazeriClinicJWT", token, {
-          // maxAge: maxAge * 1000 * 1000
+          // maxAge is in scale of miliseconds
+          // this time is 1h => 1000 * 60 * 60
+          maxAge: 1000 * 60 * 60
         });
         res.status(200).json({ user });
       } else {
