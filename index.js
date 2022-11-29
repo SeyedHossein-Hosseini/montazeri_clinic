@@ -13,8 +13,10 @@ const loginPage = require("./routes/login");
 const changePassword = require("./routes/changePassword");
 // const getUserRoute = require("./routes/getUserRoute");
 const sequelize = require("./models/Sequelize");
-const { readImages } = require("./controllers/ReadUserImagesController");
+// const { readImages } = require("./controllers/ReadUserImagesController");
 const { handleUserAuth } = require("./middleware/authenticateUserByToken");
+
+const { readUserImages } = require("./controllers/ReadUserImagesController");
 
 const app = express();
 
@@ -34,14 +36,8 @@ setStatics(app);
 // app.get("*", checkUser);
 app.use(loginPage);
 app.use(changePassword);
-app.get("/main", handleUserAuth, readImages, (req, res) => {
-  res.render("mainPage", {
-    fname: "",
-    lname: "",
-    id_sick: ""
-  });
-});
-// app.use(readImages);
+app.get("/main", handleUserAuth, readUserImages);
+// app.get("/read", readUserImages);
 // app.get("/users", getUserRoute);
 app.get("/", (req, res) => {
   res.redirect("login");

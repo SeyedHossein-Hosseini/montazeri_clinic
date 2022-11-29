@@ -44,6 +44,12 @@
                                         <p id="formError" class="mt-2 text-center text-danger">
                                         </p>
                                     </div>
+                                    
+                                    <% if(message) { %>
+                                        <div class="text-center">
+                                            <p> <%= message  %>  </p>    
+                                        </div>
+                                    <% } %>
                                 </form>
                             </div>
                         </div>

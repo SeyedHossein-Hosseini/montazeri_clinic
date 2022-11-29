@@ -1,22 +1,22 @@
 const jsonwebtoken = require("jsonwebtoken");
-const User = require("../models/User");
 
-module.exports.verifyToken = async () => {
+module.exports.verifyToken = async (req) => {
   const token = await req.cookies.MontazeriClinicJWT;
+  var tokenID = "";
   if (token) {
-    jsonwebtoken.verify(
-      token,
-      process.env.SECRET_KEY,
-      async (err, decodedToken) => {
-        if (err) {
-          return "";
-        } else {
-          console.log("decodedToken:", decodedToken.id);
-          return decodedToken.id;
-        }
+    jsonwebtoken.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
+      if (err) {
+        //   return "0";
+        console.log("an error accured");
+      } else {
+        console.log("decodedToken:", decodedToken.id);
+
+        tokenID = decodedToken.id;
       }
-    );
+    });
   } else {
-    return "";
+    tokenID = "0";
   }
+
+  return tokenID;
 };

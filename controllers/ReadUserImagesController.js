@@ -1,110 +1,114 @@
+const { readdir, readFile } = require("fs").promises;
 const path = require("path");
-const fs = require("fs");
-const jsonwebtoken = require("jsonwebtoken");
+const {
+  readFileSync,
+  writeFileSync,
+  mkdirSync,
+  existsSync,
+  unlinkSync
+} = require("fs");
+const { verifyToken } = require("../utils/verifyToken");
 
-const { smb2Client } = require("../models/SMBClient");
-const { removeAllFiles } = require("../utils/removeAllImages");
+module.exports.readUserImages = async (req, res, next) => {
+  // declare where to save user images
+  const imageSaveFolder = path.join(__dirname, "..", "public", "temp");
 
-const ImageDirectory = path.resolve(__dirname, "..", "temp");
+  // const documentNumber = "45";
+  const documentNumber = await verifyToken(req);
 
-module.exports.readImages = async (req, res, next) => {
-  removeAllFiles();
-  var docNumber = null;
-  var img;
-  const token = await req.cookies.MontazeriClinicJWT;
-  if (token) {
-    jsonwebtoken.verify(
-      token,
-      process.env.SECRET_KEY,
-      async (err, decodedToken) => {
-        if (err) {
-          console.log(`An error accured in fetching images`);
-        } else {
-          docNumber = await decodedToken.id;
-          console.log({ docNumber });
-          smb2Client.readdir(`${docNumber}`, function (err, content) {
-            // if there is a image folder for a user in share folder
-            if (err) {
-              // res.json({});
-              // next();
-              return;
-            }
-            content.forEach((element) => {
-              var t = path.join(`${docNumber}`, `${element}`);
-              smb2Client.readdir(t, (err, result) => {
-                if (err) {
-                  res.json({ msg: `There is a error with fetching images` });
-                  next();
-                  return;
-                }
-                result.forEach((image) => {
-                  var addr = path.join(
-                    `${docNumber}`,
-                    `${element}`,
-                    `${image}`
-                  );
-                  if (
-                    image.includes(".jpg") ||
-                    image.includes(".png") ||
-                    image.includes(".jpeg")
-                  ) {
-                    smb2Client.readFile(addr, (error, images) => {
-                      if (error) {
-                        res.json({
-                          msg: `There is a error with fetching images`
-                        });
-                        next();
-                        return;
-                      }
-                      console.log({ element, image });
-                      img = images.toString("base64");
-                      var im = img;
-                      // {
-                      //   imageData: img,
-                      //   name: image,
-                      //   number: element
-                      // };
-                      fs.writeFile(
-                        `${ImageDirectory}/${image}.txt`,
-                        im,
-                        (err) => {
-                          if (err) {
-                            res.json({
-                              msg: `There is a error with fetching images`
-                            });
-                            next();
-                            return;
-                          }
-                        }
-                      );
-                    });
-                  }
-                });
-              });
-            });
+  // create full address of network share folder
+  const shareFolderPath = () => {
+    console.log({ documentNumber });
+    return [
+      "\\\\",
+      process.env.SHARE_FOLDER_ROOT_SERVER,
+      "\\",
+      process.env.SHARE_FOLDER_ROUTE,
+      "\\",
+      documentNumber
+    ].join("");
+  };
+
+  const organizeUserDirectory = async (docNumber) => {
+    // create a directory named user document number
+    let userImageDirectory = path.join(imageSaveFolder, docNumber);
+    if (!existsSync(userImageDirectory)) {
+      mkdirSync(userImageDirectory);
+    } else {
+      readdir(userImageDirectory, (err, files) => {
+        if (err) throw err;
+
+        for (const file of files) {
+          unlinkSync(path.join(userImageDirectory, file), (err) => {
+            if (err) throw err;
           });
         }
-      }
-    );
-  } else {
-    console.log(`An error accured in fetching images`);
-    return;
-  }
-
-  next();
-};
-
-const sendImagesToClient = async () => {
-  var images = [];
-  fs.readdirSync(ImageDirectory, (err, files) => {
-    files.forEach((file) => {
-      var img = null;
-      let imagePath = path.join(ImageDirectory, file);
-      fs.readFile(imagePath, async (err, data) => {
-        let image = data.toString();
-        img = { image, file };
-        images.push(img);
       });
+    }
+  };
+
+  const getFileList = async (dirName) => {
+    let files = [];
+    const items = await readdir(dirName, { withFileTypes: true });
+
+    for (const item of items) {
+      const filePath = path.join(dirName, item.name);
+      if (item.isDirectory()) {
+        files = [...files, ...(await getFileList(filePath))];
+      } else {
+        files.push(filePath);
+      }
+    }
+
+    return files;
+  };
+
+  getFileList(shareFolderPath())
+    .then(async (files) => {
+      let folderImageList = [];
+      let imageCount = 0;
+      for (const file of files) {
+        imageCount++;
+        if (
+          file.includes(".jpg") ||
+          file.includes(".png") ||
+          file.includes(".jpeg")
+        ) {
+          const data = readFileSync(file);
+          console.log({ file });
+          await organizeUserDirectory(documentNumber);
+          let imagePath = path.join(
+            imageSaveFolder,
+            documentNumber,
+            `${imageCount}.jpg`
+          );
+          writeFileSync(imagePath, data);
+
+          let imagePathFront = path.join(
+            "temp",
+            documentNumber,
+            `${imageCount}.jpg`
+          );
+
+          folderImageList.push(imagePathFront);
+          console.log(data);
+        }
+        console.log(
+          "======================================================================================"
+        );
+      }
+      console.log(folderImageList);
+      res.render("mainPage", {
+        error: "",
+        imageList: folderImageList,
+        fname: "",
+        lname: "",
+        id_sick: ""
+      });
+    })
+    .catch((err) => {
+      res.render("login", { message: "There is no image for user !!!" });
+      console.log(err);
+      return;
     });
-  });
 };

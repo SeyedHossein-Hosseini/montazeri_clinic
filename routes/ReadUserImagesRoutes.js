@@ -1,9 +1,9 @@
-const { Router } = require("express");
+// const { Router } = require("express");
 
-const { readImages } = require("../controllers/ReadUserImagesController");
+// const { readImages } = require("../controllers/ReadUserImagesController");
 
-const router = Router();
+// const router = Router();
 
-router.get("/readimage", readImages);
+// router.get("/readimage", readImages);
 
-module.exports = router;
+// module.exports = router;
