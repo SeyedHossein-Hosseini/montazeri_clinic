@@ -1,17 +1,21 @@
 <%- include ('./layouts/head.ejs') %>
     <link rel="stylesheet" href="css/mainPage.css">
+    <link rel="stylesheet" href="css/backToTopBtn.css">
         <section id="mainPage">
             <div class="navbar-top">
                 <div class="d-flex">
                     <div class="p-2 flex-fill">
                         <i id="user_icon" class="fa fa-user"></i>
-                        <span id="sickFullname">تصاویر دندان 
+                        <% if(userData) { %>
+                        <span id="sickFullname">
+                        تصاویر دندان خانم/آقای  <%= userData.fullname %>
                         </span>
+                        <% } %>                        
                     </div>
                     <div class="p-2 flex-fill text-start">
                         <span id="clinicTitle" class="text-info"> درمانگاه تخصصی دندانپزشکی شهید منتظری </span>
-                        <!-- <img src="img/hospital.png" width="25px" alt="Clinic"> -->
-                        <i class="fa fa-hospital-o text-info" style="font-size:25px;" aria-hidden="true"></i>
+                        <img src="img/hospital.png" width="25px" alt="Clinic">
+                        <!-- <i class="fa fa-hospital-o text-info" style="font-size:25px;" aria-hidden="true"></i> -->
                     </div>
                 </div>
             </div>
@@ -20,17 +24,21 @@
                 <div id="imagesContainer" class="d-flex justify-content-center flex-wrap">
 
                     <% if (imageList==[]) { %>
-                        <p> errororrrrr</p>
+                        <p>!!! داده ای برای این فرد ثبت نشده است  </p>
                         <%} else { %>
                             <% for(var i=0; i < imageList.length; i++) { %>
                                 <div class="imageCard">
-                                    <span id="statusBadge">دیده نشده</span>
-                                    <img src="<%= imageList[i] %>" width="100%" height="200px" alt="teethImages">
+                                    <!-- <span id="statusBadge">دیده نشده</span> -->
+                                    <img src="<%= imageList[i].imagePathFront %>" width="100%" height="200px" id="teethImages" alt="teethImages">
                                     <p>
                                         <i class="fa fa-download float-start m-3"></i>
                                     <p class="float-end imageDate">
                                         <span>تاریخ انتشار:</span>
-                                        <span>15-4-1401</span>
+                                        <span id="day"><%= imageList[i].day %></span>
+                                        <span> - </span>
+                                        <span id="month"><%= imageList[i].month %></span>
+                                        <span> - </span>
+                                        <span id="year"><%= imageList[i].year %></span>
                                     </p>
                                     </p>
                                 </div>
@@ -39,4 +47,7 @@
 
                   </div>
             </div>
+            <a id="back_to_top_btn"></a>
+    <script src="js/backToTopBtnFunctionality.js" ></script>
+
         </section>

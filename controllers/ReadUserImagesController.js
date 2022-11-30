@@ -9,6 +9,8 @@ const {
 } = require("fs");
 const { verifyToken } = require("../utils/verifyToken");
 
+const { getImageReleasedTime } = require("../utils/imageReleasedTime");
+
 module.exports.readUserImages = async (req, res, next) => {
   // declare where to save user images
   const imageSaveFolder = path.join(__dirname, "..", "public", "temp");
@@ -76,6 +78,12 @@ module.exports.readUserImages = async (req, res, next) => {
         ) {
           const data = readFileSync(file);
           console.log({ file });
+
+          // preprocess filename to get the exact time of its released time
+          let { year, month, day } = getImageReleasedTime(file);
+
+          console.log({ year, month, day });
+
           await organizeUserDirectory(documentNumber);
           let imagePath = path.join(
             imageSaveFolder,
@@ -90,14 +98,14 @@ module.exports.readUserImages = async (req, res, next) => {
             `${imageCount}.jpg`
           );
 
-          folderImageList.push(imagePathFront);
-          console.log(data);
+          folderImageList.push({ imagePathFront, year, month, day });
+          // console.log(data);
         }
         console.log(
           "======================================================================================"
         );
       }
-      console.log(folderImageList);
+      // console.log(folderImageList);
       res.render("mainPage", {
         error: "",
         imageList: folderImageList,

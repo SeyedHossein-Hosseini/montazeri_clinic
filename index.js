@@ -14,7 +14,10 @@ const changePassword = require("./routes/changePassword");
 // const getUserRoute = require("./routes/getUserRoute");
 const sequelize = require("./models/Sequelize");
 // const { readImages } = require("./controllers/ReadUserImagesController");
-const { handleUserAuth } = require("./middleware/authenticateUserByToken");
+const {
+  handleUserAuth,
+  checkUser
+} = require("./middleware/authenticateUserByToken");
 
 const { readUserImages } = require("./controllers/ReadUserImagesController");
 
@@ -36,7 +39,7 @@ setStatics(app);
 // app.get("*", checkUser);
 app.use(loginPage);
 app.use(changePassword);
-app.get("/main", handleUserAuth, readUserImages);
+app.get("/main", handleUserAuth, checkUser, readUserImages);
 // app.get("/read", readUserImages);
 // app.get("/users", getUserRoute);
 app.get("/", (req, res) => {

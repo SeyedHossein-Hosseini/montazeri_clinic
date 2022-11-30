@@ -19,62 +19,29 @@ const handleUserAuth = (req, res, next) => {
   }
 };
 
-// const doSth = async (req, res, next) => {
-//   const token = req.cookies.MontazeriClinicJWT;
-//   if (token) {
-//     jsonwebtoken.verify(
-//       token,
-//       process.env.SECRET_KEY,
-//       async (err, decodedToken) => {
-//         if (err) {
-//           res.locals.userData = null;
-//           next();
-//         } else {
-//           // get images here
-//           //   const user = await User.findByPk(decodedToken.id);
-//           console.log("decodedToken:", decodedToken.id);
-
-//           let errors = "";
-
-//           await readImages(decodedToken.id, errors);
-//           console.log({ errors });
-
-//           //   res.json({ result });
-//           //   res.locals.userData = { fullname: user.fullname };
-//           next();
-//         }
-//       }
-//     );
-//   } else {
-//     res.locals.userData = null;
-//     next();
-//   }
-// };
-
 // checks the current user status and information
-// const checkUser = (req, res, next) => {
-//   const token = req.cookies.MontazeriClinicJWT;
-//   if (token) {
-//     jsonwebtoken.verify(
-//       token,
-//       process.env.SECRET_KEY,
-//       async (err, decodedToken) => {
-//         if (err) {
-//         //   res.locals.userData = null;
-//           next();
-//         } else {
-//           // get images here
-//           //   const user = await User.findByPk(decodedToken.id);
-//           console.log("decodedToken:", decodedToken.id);
-//           //   res.locals.userData = { fullname: user.fullname };
-//           next();
-//         }
-//       }
-//     );
-//   } else {
-//     // res.locals.userData = null;
-//     next();
-//   }
-// };
+const checkUser = (req, res, next) => {
+  const token = req.cookies.MontazeriClinicJWT;
+  if (token) {
+    jsonwebtoken.verify(
+      token,
+      process.env.SECRET_KEY,
+      async (err, decodedToken) => {
+        if (err) {
+          res.locals.userData = null;
+          next();
+        } else {
+          const user = await User.findByPk(decodedToken.id);
+          console.log("decodedToken:", decodedToken.id);
+          res.locals.userData = { fullname: user.fullname };
+          next();
+        }
+      }
+    );
+  } else {
+    res.locals.userData = null;
+    next();
+  }
+};
 
-module.exports = { handleUserAuth };
+module.exports = { handleUserAuth, checkUser };
