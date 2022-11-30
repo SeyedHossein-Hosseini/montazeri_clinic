@@ -99,7 +99,6 @@ module.exports.readUserImages = async (req, res, next) => {
           );
 
           folderImageList.push({ imagePathFront, year, month, day });
-          // console.log(data);
         }
         console.log(
           "======================================================================================"
