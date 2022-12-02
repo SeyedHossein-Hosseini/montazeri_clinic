@@ -10,6 +10,7 @@ dotEnv.config({ path: "./config/.env" });
 // Import internal files
 const { setStatics } = require("./utils/statics");
 const loginPage = require("./routes/login");
+const logout = require("./routes/logout");
 const changePassword = require("./routes/changePassword");
 // const getUserRoute = require("./routes/getUserRoute");
 const sequelize = require("./models/Sequelize");
@@ -38,6 +39,7 @@ setStatics(app);
 // All routes
 // app.get("*", checkUser);
 app.use(loginPage);
+app.use(logout);
 app.use(changePassword);
 app.get("/main", handleUserAuth, checkUser, readUserImages);
 // app.get("/read", readUserImages);

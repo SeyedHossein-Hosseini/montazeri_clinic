@@ -116,3 +116,12 @@
 .imageCard:hover #teethImages {
     filter: contrast(110%);
 }
+
+#navbarSubMenu {
+    position: fixed;
+    top: 60px;
+    right: 20px;
+    background-color: rgb(236, 236, 236);
+    border-radius: 10px;
+    border: solid 2px rgb(121, 121, 121);
+}

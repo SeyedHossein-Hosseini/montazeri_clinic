@@ -1,7 +1,5 @@
 const express = require("express");
 
-
-
 const {
   authenticateUser
 } = require("../controllers/AuthenticateUserController");

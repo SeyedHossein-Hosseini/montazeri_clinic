@@ -1,0 +1,28 @@
+<div class="navbarSubmenuContainer d-none">
+    <div id="navbarSubMenu">
+        <div class="menuHead text-center">
+            <h4 class="p-2 mx-2">کلینیک شهید منتظری</h4>
+            <p>
+                <span> <b>نام مراجعه کننده :</b> </span>
+                <span>  
+                    <%= userData.fullname %>
+                </span>
+            </p>
+    
+            <p>
+                <span> <b> شماره پرونده  :</b> </span>
+                <span>
+                    <%= userData.id %>
+                </span>
+            </p>
+        </div>
+    
+        <div class="menuFooter text-center">
+            <p> <a href="#" class="btn btn-info py-1 px-3"> تغییر رمز عبور </a> </p>
+            <p> <a href="/logout" class="btn btn-secondary py-1 px-3"> خروج از حساب کاربری </a> </p>
+        </div>
+    
+    </div>
+</div>
+
+

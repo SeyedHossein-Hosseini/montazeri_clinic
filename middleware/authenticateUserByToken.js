@@ -33,7 +33,10 @@ const checkUser = (req, res, next) => {
         } else {
           const user = await User.findByPk(decodedToken.id);
           console.log("decodedToken:", decodedToken.id);
-          res.locals.userData = { fullname: user.fullname };
+          res.locals.userData = {
+            fullname: user.fullname,
+            id: decodedToken.id
+          };
           next();
         }
       }

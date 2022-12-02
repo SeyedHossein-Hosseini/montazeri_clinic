@@ -5,6 +5,7 @@
             <div class="navbar-top">
                 <div class="d-flex">
                     <div class="p-2 flex-fill">
+                        <%- include('./includes/navbarSubMenu.ejs') %>
                         <i id="user_icon" class="fa fa-user"></i>
                         <% if(userData) { %>
                         <span id="sickFullname">
@@ -48,6 +49,6 @@
                   </div>
             </div>
             <a id="back_to_top_btn"></a>
-    <script src="js/backToTopBtnFunctionality.js" ></script>
-
+        <script src="js/backToTopBtnFunctionality.js" ></script>
+        <script src="js/navbarSubMenu.js" ></script>
         </section>
