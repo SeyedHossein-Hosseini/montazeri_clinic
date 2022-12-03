@@ -2,9 +2,6 @@ const User = require("../models/User");
 
 const jwt = require("jsonwebtoken");
 
-// based on seconds
-const maxAge = 30;
-
 const createToken = (id) => {
   let data = { time: Date(), id };
   return jwt.sign(data, process.env.SECRET_KEY, {

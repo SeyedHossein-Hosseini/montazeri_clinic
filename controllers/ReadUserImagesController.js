@@ -5,7 +5,8 @@ const {
   writeFileSync,
   mkdirSync,
   existsSync,
-  unlinkSync
+  unlinkSync,
+  rm
 } = require("fs");
 const { verifyToken } = require("../utils/verifyToken");
 
@@ -49,6 +50,14 @@ module.exports.readUserImages = async (req, res, next) => {
     }
   };
 
+  const deleteTempContent = (sickID) => {
+    let sickPathImage = path.join(imageSaveFolder, sickID);
+    rm(sickPathImage, { recursive: true }, (err) => {
+      if (err) throw err;
+    });
+    console.log(`folder sick with id number ${sickID} deleted`);
+  };
+
   const getFileList = async (dirName) => {
     let files = [];
     const items = await readdir(dirName, { withFileTypes: true });
@@ -88,14 +97,14 @@ module.exports.readUserImages = async (req, res, next) => {
           let imagePath = path.join(
             imageSaveFolder,
             documentNumber,
-            `${imageCount}.jpg`
+            `${imageCount}.png`
           );
           writeFileSync(imagePath, data);
 
           let imagePathFront = path.join(
             "temp",
             documentNumber,
-            `${imageCount}.jpg`
+            `${imageCount}.png`
           );
 
           folderImageList.push({ imagePathFront, year, month, day });
@@ -112,9 +121,16 @@ module.exports.readUserImages = async (req, res, next) => {
         lname: "",
         id_sick: ""
       });
+
+      // 15 min remaining to delete all images for the user with specific ID
+      setTimeout(() => {
+        deleteTempContent(documentNumber);
+      }, 1000 * 60 * 15);
     })
     .catch((err) => {
-      res.render("login", { message: "There is no image for user !!!" });
+      res.render("login", {
+        message: " برای این شماره پرونده هیچ تصویری یافت نشد !!!"
+      });
       console.log(err);
       return;
     });

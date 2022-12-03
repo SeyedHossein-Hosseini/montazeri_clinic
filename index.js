@@ -40,7 +40,7 @@ setStatics(app);
 // app.get("*", checkUser);
 app.use(loginPage);
 app.use(logout);
-app.use(changePassword);
+app.use(handleUserAuth, changePassword);
 app.get("/main", handleUserAuth, checkUser, readUserImages);
 // app.get("/read", readUserImages);
 // app.get("/users", getUserRoute);

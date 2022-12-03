@@ -124,4 +124,5 @@
     background-color: rgb(236, 236, 236);
     border-radius: 10px;
     border: solid 2px rgb(121, 121, 121);
+    transition: all .5s ease;
 }
