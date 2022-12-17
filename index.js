@@ -2,8 +2,8 @@
 const express = require("express");
 const dotEnv = require("dotenv");
 const bodyParser = require("body-parser");
-var cookieParser = require("cookie-parser");
-
+const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
 //* load config
 dotEnv.config({ path: "./config/.env" });
 
@@ -51,13 +51,24 @@ app.get("*", (req, res) => {
   res.render("404");
 });
 
+mongoose.set("strictQuery", false);
+const dbURI = process.env.STRING_CONNECTION_MONGODB;
+
 sequelize
   .sync()
   .then((result) => {
-    app.listen(process.env.PORT, () => {
-      console.log(`App is listening on port ${process.env.PORT}`);
-      console.log("connected");
-    });
+    mongoose
+      .connect(dbURI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      })
+      .then((res) => {
+        app.listen(process.env.PORT, () => {
+          console.log(`App is listening on port ${process.env.PORT}`);
+          console.log("connected to both mongo and sql");
+        });
+      })
+      .catch((error) => console.log(error));
   })
   .catch((err) => {
     console.log(err);

@@ -1,5 +1,5 @@
-// let oldPassVisibilityImg = document.getElementById('oldPassVisibility');
-// let oldPassword = document.getElementById("oldPassword");
+let oldPassVisibilityImg = document.getElementById("oldPassVisibility");
+let oldPassword = document.getElementById("oldPassword");
 
 let newPassVisibilityImg = document.getElementById("newPassVisibility");
 let newPassword = document.getElementById("newPassword");
@@ -16,5 +16,5 @@ const togglePasswordVisibility = (passVisibility, password) => {
   });
 };
 
-// togglePasswordVisibility(oldPassVisibilityImg, oldPassword);
+togglePasswordVisibility(oldPassVisibilityImg, oldPassword);
 togglePasswordVisibility(newPassVisibilityImg, newPassword);

@@ -14,9 +14,9 @@
                                     <ul>
                                         <li>کلمه عبور در ابتدا، همان شماره تماس شما بدون صفر می باشد</li>
                                         <li>در صورت مواجه با خطای ثبت نشدن شماره تماس، به حسابداری مراجعه کنید</li>
-                                        <li>با ورود به صفحه ی کاربری خود، می توانید کلمه ی عبور خود را تغییر دهید</li>
-                                        <li>در صورت فراموشی رمز عبور، دکمه ی بازیابی کلمه عبور را بزنید تا شماره تماس
-                                            شما رمز عبورتان شود</li>
+                                        <!-- <li>با ورود به صفحه ی کاربری خود، می توانید کلمه ی عبور خود را تغییر دهید</li> -->
+                                        <!-- <li>در صورت فراموشی رمز عبور، دکمه ی بازیابی کلمه عبور را بزنید تا شماره تماس
+                                            شما رمز عبورتان شود</li> -->
                                     </ul>
                                 </div>
                             </div>
@@ -38,18 +38,17 @@
                                         <input type="submit"
                                             class="loginSubmit px-lg-5 px-xl-5 px-md-2 py-1 mt-xl-5 mt-lg-4"
                                             value="ورود" />
-                                        <input type="button"
+                                        <!-- <input type="button"
                                             class="passwordReset px-lg-5 px-xl-5 px-md-2 py-1 mt-xl-5 mt-lg-4"
-                                            value="بازیابی رمز عبور" />
+                                            value="بازیابی رمز عبور"
+                                             /> -->
                                         <p id="formError" class="mt-2 text-center text-danger">
                                         </p>
                                     </div>
                                     
-                                    <% if(message) { %>
-                                        <div class="text-center text-danger">
-                                            <p> <%= message  %>  </p>    
-                                        </div>
-                                    <% } %>
+                                    <div class="text-center text-danger errorMsg">
+                                        <p> <%= message  %>  </p>    
+                                    </div>
                                 </form>
                             </div>
                         </div>

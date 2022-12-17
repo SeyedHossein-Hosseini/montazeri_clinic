@@ -3,6 +3,7 @@ let form = document.querySelector(".loginForm");
 let passwordError = document.getElementById("passwordError");
 let docNumberError = document.getElementById("docNumberError");
 let formError = document.getElementById("formError");
+let errorMsg = document.querySelector(".errorMsg");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -33,8 +34,16 @@ form.addEventListener("submit", async (e) => {
   } catch (err) {
     console.log(err);
     formError.innerHTML = err;
+    return;
   }
 
   //   console.log(form.docNumber.value);
   //   console.log(form.loginPassword.value);
 });
+
+setTimeout(() => {
+  passwordError.innerHTML = "";
+  docNumberError.innerHTML = "";
+  formError.innerHTML = "";
+  errorMsg.innerHTML = "";
+}, 3000);

@@ -52,10 +52,12 @@ module.exports.readUserImages = async (req, res, next) => {
 
   const deleteTempContent = (sickID) => {
     let sickPathImage = path.join(imageSaveFolder, sickID);
-    rm(sickPathImage, { recursive: true }, (err) => {
-      if (err) throw err;
-    });
-    console.log(`folder sick with id number ${sickID} deleted`);
+    if (existsSync(sickPathImage)) {
+      rm(sickPathImage, { recursive: true }, (err) => {
+        if (err) throw err;
+      });
+      console.log(`folder sick with id number ${sickID} deleted`);
+    }
   };
 
   const getFileList = async (dirName) => {
@@ -122,10 +124,10 @@ module.exports.readUserImages = async (req, res, next) => {
         id_sick: ""
       });
 
-      // 15 min remaining to delete all images for the user with specific ID
+      // 60 min remaining to delete all images for the user with specific ID
       setTimeout(() => {
         deleteTempContent(documentNumber);
-      }, 1000 * 60 * 15);
+      }, 1000 * 60 * 60);
     })
     .catch((err) => {
       res.render("login", {
