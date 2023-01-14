@@ -5,6 +5,8 @@ const User = require("../models/User");
 
 // checks if a user has a valid token
 const handleUserAuth = (req, res, next) => {
+  console.log("handle user auth");
+
   const token = req.cookies.MontazeriClinicJWT;
   if (token) {
     jsonwebtoken.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
@@ -21,6 +23,7 @@ const handleUserAuth = (req, res, next) => {
 
 // checks the current user status and information
 const checkUser = (req, res, next) => {
+  console.log("check user");
   const token = req.cookies.MontazeriClinicJWT;
   if (token) {
     jsonwebtoken.verify(

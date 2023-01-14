@@ -1,5 +1,7 @@
 const User = require("../models/User");
 
+const LocalUser = require("../models/LocalUser");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const createToken = (id) => {
@@ -33,37 +35,87 @@ module.exports.authenticateUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findByPk(docNumber);
-    if (user) {
-      let pass1 = user.Tel;
-      let pass2 = user.TelQuick;
-      // remove all characters except numbers
-      pass1 = pass1.replace(/\D/g, "");
-      pass2 = pass2.replace(/\D/g, "");
-      console.log(pass1, pass2);
-
-      if (pass1 == "" && pass2 == "") {
-        errors.password = "!!! هیچ شماره تماسی از شما در دیتابیس ثبت نشده است ";
-        res.status(400).json({ errors });
+    console.log(typeof docNumber);
+    // const user = await LocalUser.findByPk(docNumber);
+    // var USERId = JSON.parse(docNumber);
+    LocalUser.findOne({ id: docNumber }, async function (error, user) {
+      if (error) {
+        alert("اروری در دیتابیس مونگو رخ داده است");
+        console.log(error);
         return;
-      }
-      if (user.Tel == password || user.TelQuick == password) {
-        let id = user.IDsick.toString();
-        const token = createToken(id);
-        res.cookie("MontazeriClinicJWT", token, {
-          // maxAge is in scale of miliseconds
-          // this time is 1h => 1000 * 60 * 60
-          maxAge: 1000 * 60 * 60
-        });
-        res.status(200).json({ user });
       } else {
-        errors.password = "!!! کلمه ی عبور اشتباه است";
-        res.status(400).json({ errors });
+        if (user) {
+          bcrypt.compare(password, user.password, (er, result) => {
+            if (er) {
+            } else {
+              if (result) {
+                console.log({ result });
+                let id = user.id.toString();
+                const token = createToken(id);
+                res.cookie("MontazeriClinicJWT", token, {
+                  // maxAge is in scale of miliseconds
+                  // this time is 1h => 1000 * 60 * 60
+                  maxAge: 1000 * 60 * 60
+                });
+                res.status(200).json({ user });
+              } else {
+                errors.password = "!!! پسورد شما اشتباه است";
+                res.status(400).json({ errors });
+                return;
+              }
+            }
+          });
+        } else {
+          const user = await User.findByPk(docNumber);
+          if (user) {
+            let pass1 = user.Tel;
+            let pass2 = user.TelQuick;
+            // remove all characters except numbers
+            pass1 = pass1.replace(/\D/g, "");
+            pass2 = pass2.replace(/\D/g, "");
+            console.log(
+              "below output happens in authencticayteUserController -> "
+            );
+            console.log({ pass1 }, { pass2 });
+
+            if (pass1 == "" && pass2 == "") {
+              errors.password =
+                "!!! هیچ شماره تماسی از شما در دیتابیس ثبت نشده است ";
+              res.status(400).json({ errors });
+              return;
+            }
+            if (user.Tel == password || user.TelQuick == password) {
+              let id = user.IDsick.toString();
+              const token = createToken(id);
+              res.cookie("MontazeriClinicJWT", token, {
+                // maxAge is in scale of miliseconds
+                // this time is 1h => 1000 * 60 * 60
+                maxAge: 1000 * 60 * 60
+              });
+              res.status(200).json({ user });
+            } else {
+              errors.password = "!!! کلمه ی عبور اشتباه است";
+              res.status(400).json({ errors });
+            }
+          } else {
+            errors.docNumber = "!!! این شماره پرونده یافت نشد ";
+            res.status(400).json({ errors });
+          }
+        }
       }
-    } else {
-      errors.docNumber = "!!! این شماره پرونده یافت نشد ";
-      res.status(400).json({ errors });
-    }
+    });
+    // LocalUser.findById(docNumber, (err, result) => {
+    //   if (err) {
+    //     console.log(err);
+    //     // console.log("an error here");
+    //   } else {
+    //     if (result) {
+    //       console.log("user found");
+    //     } else {
+    //       console.log("not found");
+    //     }
+    //   }
+    // });
   } catch (err) {
     console.log(req.body);
     res
@@ -92,3 +144,53 @@ module.exports.logout_get = (req, res) => {
 
   res.redirect("/login");
 };
+
+// LocalUser.findById(docNumber, async function (err, doc) {
+//   if (err) {
+//     const user = await User.findByPk(docNumber);
+//     if (user) {
+//       let pass1 = user.Tel;
+//       let pass2 = user.TelQuick;
+//       // remove all characters except numbers
+//       pass1 = pass1.replace(/\D/g, "");
+//       pass2 = pass2.replace(/\D/g, "");
+//       console.log("below output happens in authencticayteUserController -> ");
+//       console.log({ pass1 }, { pass2 });
+
+//       if (pass1 == "" && pass2 == "") {
+//         errors.password = "!!! هیچ شماره تماسی از شما در دیتابیس ثبت نشده است ";
+//         res.status(400).json({ errors });
+//         return;
+//       }
+//       if (user.Tel == password || user.TelQuick == password) {
+//         let id = user.IDsick.toString();
+//         const token = createToken(id);
+//         res.cookie("MontazeriClinicJWT", token, {
+//           // maxAge is in scale of miliseconds
+//           // this time is 1h => 1000 * 60 * 60
+//           maxAge: 1000 * 60 * 60
+//         });
+//         res.status(200).json({ user });
+//       } else {
+//         errors.password = "!!! کلمه ی عبور اشتباه است";
+//         res.status(400).json({ errors });
+//       }
+//     } else {
+//       errors.docNumber = "!!! این شماره پرونده یافت نشد ";
+//       res.status(400).json({ errors });
+//     }
+//   } else {
+//     bcrypt.compare(password, doc.password, (er, result) => {
+//       if (er) {
+//         res.json({
+//           docNumber: "",
+//           password: "!!! پسورد شما اشتباه است"
+//         });
+//         return;
+//       } else {
+//         res.status(200).json({ doc });
+//         return;
+//       }
+//     });
+//   }
+// });

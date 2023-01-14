@@ -88,13 +88,13 @@ module.exports.readUserImages = async (req, res, next) => {
           file.includes(".jpeg")
         ) {
           const data = readFileSync(file);
-          console.log({ file });
+          // console.log({ file });
 
           // preprocess filename to get the exact time of its released time
           let { year, month, day } = getImageReleasedTime(file);
           // let { year, month, day } = { year: "1300", month: "12", day: "30" };
 
-          console.log({ year, month, day });
+          // console.log({ year, month, day });
 
           await organizeUserDirectory(documentNumber);
           let imagePath = path.join(
@@ -112,9 +112,9 @@ module.exports.readUserImages = async (req, res, next) => {
 
           folderImageList.push({ imagePathFront, year, month, day });
         }
-        console.log(
-          "======================================================================================"
-        );
+        // console.log(
+        //   "======================================================================================"
+        // );
       }
       // console.log(folderImageList);
       res.render("mainPage", {
@@ -134,7 +134,7 @@ module.exports.readUserImages = async (req, res, next) => {
       res.render("login", {
         message: " برای این شماره پرونده هیچ تصویری یافت نشد !!!"
       });
-      console.log(err);
+      // console.log(err);
       return;
     });
 };

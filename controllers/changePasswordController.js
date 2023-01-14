@@ -28,7 +28,17 @@ module.exports.changePassword = async (req, res) => {
 
   if (!ID) res.redirect("/login");
 
-  const { password, opassword } = req.body;
+  let { password, opassword } = req.body;
+
+  if (password.length < 6) {
+    res.json({
+      oldpassword: "",
+      pass: "پسورد جدید شما باید بیش از 6 رقم داشته باشد",
+      id: "",
+      success: ""
+    });
+    return;
+  }
   // console.log({ id, password, oldpassword });
   // console.log(typeof parseInt(id));
   const user = await User.findByPk(parseInt(ID));
@@ -36,6 +46,8 @@ module.exports.changePassword = async (req, res) => {
   if (user) {
     if (opassword == user.Tel || opassword == user.TelQuick) {
       const filter = { id: ID };
+      const salt = await bcrypt.genSalt();
+      password = await bcrypt.hash(password.toString(), salt);
       const update = { password: password };
 
       // LocalUser.findOne(filter, async (err, response) => {
