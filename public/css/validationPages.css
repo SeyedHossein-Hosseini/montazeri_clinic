@@ -178,3 +178,32 @@ body {
         padding-bottom: 13px;
     }
 }
+
+.loader {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgb(0, 205, 10);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
+
+.mainRedirect{
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    color:rgb(0, 205, 10);
+    font-size: 16px;
+}

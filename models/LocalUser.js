@@ -6,18 +6,20 @@ const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema({
   id: {
     type: String,
-    required: [true, "لطفا شماره پرونده خود را وارد کنید"],
+    required: [true, "لطفا شماره پرونده خود را وارد کنید"]
   },
   password: {
     type: String,
     required: [true, "لطفا پسورد خود را وارد کنید"],
-    minLength: [6, `پسورد شما شامل حداقل 6 کلمه باشد`],
+    minLength: [6, `پسورد شما شامل حداقل 6 کلمه باشد`]
     // validate: [
     //   isStrongPassword,
     //   "Use symbols, capital letters, small letters and numbers in your password !!!"
     // ]
   }
 });
+
+const options = { validateBeforeSave: true };
 
 // fire a function after an instance is saved to the database
 // userSchema.post('save', function (doc, next) {
@@ -26,9 +28,26 @@ const userSchema = new mongoose.Schema({
 // });
 
 // fire a function before an instance saved to the database
-userSchema.pre('save', async function (next) {
+userSchema.pre("save", async function (next) {
+  // console.log("this.password:", this.password);
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password.toString(), salt);
+  next();
+});
+
+// userSchema.pre("updateOne", function (next) {
+// const data = this.getUpdate();
+// console.log("this.password: ", this.password);
+// data.password = "Teste Middleware";
+// this.update({}, data).exec();
+//   next();
+// });
+
+userSchema.pre("findOneAndUpdate", async function (next) {
+  console.log("findOneAndUpdate");
+  this.options.runValidators = true;
+  // const salt = await bcrypt.genSalt();
+  // this.password = await bcrypt.hash(this.password.toString(), salt);
   next();
 });
 

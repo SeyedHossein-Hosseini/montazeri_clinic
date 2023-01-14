@@ -92,6 +92,7 @@ module.exports.readUserImages = async (req, res, next) => {
 
           // preprocess filename to get the exact time of its released time
           let { year, month, day } = getImageReleasedTime(file);
+          // let { year, month, day } = { year: "1300", month: "12", day: "30" };
 
           console.log({ year, month, day });
 

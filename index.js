@@ -57,8 +57,10 @@ const dbURI = process.env.STRING_CONNECTION_MONGODB;
 sequelize
   .sync()
   .then((result) => {
+    mongoose.set("runValidators", true);
     mongoose
       .connect(dbURI, {
+        // useCreateIndex: true,
         useNewUrlParser: true,
         useUnifiedTopology: true
       })
