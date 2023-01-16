@@ -22,6 +22,8 @@ const {
 
 const { readUserImages } = require("./controllers/ReadUserImagesController");
 
+const forgetPassword = require("./routes/forgetPassword");
+
 const app = express();
 
 app.use(express.json());
@@ -39,6 +41,7 @@ setStatics(app);
 // All routes
 // app.get("*", checkUser);
 app.use(loginPage);
+app.use(forgetPassword);
 app.use(logout);
 app.use(handleUserAuth, changePassword);
 app.get("/main", handleUserAuth, checkUser, readUserImages);

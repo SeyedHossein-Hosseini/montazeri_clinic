@@ -3,7 +3,6 @@ let form = document.querySelector(".loginForm");
 let passwordError = document.getElementById("passwordError");
 let docNumberError = document.getElementById("docNumberError");
 let formError = document.getElementById("formError");
-let errorMsg = document.querySelector(".errorMsg");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -45,5 +44,8 @@ setTimeout(() => {
   passwordError.innerHTML = "";
   docNumberError.innerHTML = "";
   formError.innerHTML = "";
-  errorMsg.innerHTML = "";
 }, 3000);
+
+function closeMessageBox(e) {
+  e.parentElement.remove();
+}

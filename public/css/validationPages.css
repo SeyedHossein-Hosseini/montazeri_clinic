@@ -38,12 +38,12 @@ body {
     position: relative;
 }
 
-#loginForm {
+#loginForm,  #forgetPasswordForm {
     border-radius: 74px;
     background-color: #F2F6FF;
 }
 
-#loginForm::before {
+#loginForm::before, #forgetPasswordForm::before {
     content: "";
     width: 50%;
     height: 100%;
@@ -107,9 +107,11 @@ body {
 
 
 #docNumber,
+#docNum,
 #loginPassword,
 #oldPassword,
-#newPassword {
+#newPassword, 
+#Tel {
     border: none;
     border-bottom: #707070 1px solid;
     outline: none;
@@ -121,13 +123,15 @@ body {
 #docNumber:focus,
 #oldPassword:focus,
 #newPassword:focus,
-#loginPassword:focus {
+#loginPassword:focus,
+#Tel:focus,
+#docNum:focus {
     border-bottom: #4b4b4b 2px solid;
 }
 
 
 .loginSubmit,
-.resetPassSubmit {
+.resetPassSubmit, .forgetPassSubmit {
     border: none;
     outline: none;
     border-radius: 13px;
@@ -166,11 +170,11 @@ body {
 }
 
 @media (max-width: 995px) {
-    #loginForm::before {
+    #loginForm::before, #forgetPasswordForm::before {
         display: none;
     }
 
-    #loginForm {
+    #loginForm, #forgetPasswordForm{
         height: 600px;
     }
 

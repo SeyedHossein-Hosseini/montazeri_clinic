@@ -131,10 +131,9 @@ module.exports.readUserImages = async (req, res, next) => {
       }, 1000 * 60 * 60);
     })
     .catch((err) => {
-      res.render("login", {
+      res.cookie("MontazeriClinicJWT", "", { maxAge: 1 }).render("login", {
         message: " برای این شماره پرونده هیچ تصویری یافت نشد !!!"
       });
-      // console.log(err);
       return;
     });
 };

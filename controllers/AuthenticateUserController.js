@@ -59,7 +59,7 @@ module.exports.authenticateUser = async (req, res) => {
                 });
                 res.status(200).json({ user });
               } else {
-                errors.password = "!!! پسورد شما اشتباه است";
+                errors.password = "پسورد شما اشتباه است!!!";
                 res.status(400).json({ errors });
                 return;
               }
@@ -80,11 +80,11 @@ module.exports.authenticateUser = async (req, res) => {
 
             if (pass1 == "" && pass2 == "") {
               errors.password =
-                "!!! هیچ شماره تماسی از شما در دیتابیس ثبت نشده است ";
+                "هیچ شماره تماسی از شما در دیتابیس ثبت نشده است!!!";
               res.status(400).json({ errors });
               return;
             }
-            if (user.Tel == password || user.TelQuick == password) {
+            if (pass1 == password || pass2 == password) {
               let id = user.IDsick.toString();
               const token = createToken(id);
               res.cookie("MontazeriClinicJWT", token, {
@@ -94,11 +94,11 @@ module.exports.authenticateUser = async (req, res) => {
               });
               res.status(200).json({ user });
             } else {
-              errors.password = "!!! کلمه ی عبور اشتباه است";
+              errors.password = " کلمه ی عبور اشتباه است!!!";
               res.status(400).json({ errors });
             }
           } else {
-            errors.docNumber = "!!! این شماره پرونده یافت نشد ";
+            errors.docNumber = "این شماره پرونده یافت نشد!!!";
             res.status(400).json({ errors });
           }
         }
@@ -120,7 +120,7 @@ module.exports.authenticateUser = async (req, res) => {
     console.log(req.body);
     res
       .status(400)
-      .json({ error: "!!! یک ارور در دریافت داده از دیتابیس رخ داده است" });
+      .json({ error: "یک ارور در دریافت داده از دیتابیس رخ داده است!!!" });
     console.log(err);
   }
   // console.log(user.IDsick);

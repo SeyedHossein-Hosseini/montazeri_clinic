@@ -39,12 +39,20 @@ module.exports.changePassword = async (req, res) => {
     });
     return;
   }
+
   // console.log({ id, password, oldpassword });
   // console.log(typeof parseInt(id));
+
   const user = await User.findByPk(parseInt(ID));
 
+  let tel = user.Tel;
+  let telquick = user.TelQuick;
+  // remove all characters except numbers
+  tel = tel.replace(/\D/g, "");
+  telquick = telquick.replace(/\D/g, "");
+
   if (user) {
-    if (opassword == user.Tel || opassword == user.TelQuick) {
+    if (opassword == tel || opassword == telquick) {
       const filter = { id: ID };
       const salt = await bcrypt.genSalt();
       password = await bcrypt.hash(password.toString(), salt);
