@@ -23,7 +23,6 @@ form.addEventListener("submit", async (e) => {
 
     if (data.user) {
       location.assign("/changePassword");
-      //   console.log("successfully loged in");
       TelError.innerHTML = "";
       docNumError.innerHTML = "";
       formErr.innerHTML = "";
@@ -43,9 +42,4 @@ form.addEventListener("submit", async (e) => {
   console.log(form.Tel.value);
 });
 
-// setTimeout(() => {
-//   passwordError.innerHTML = "";
-//   docNumberError.innerHTML = "";
-//   formError.innerHTML = "";
-//   errorMsg.innerHTML = "";
-// }, 3000);
+

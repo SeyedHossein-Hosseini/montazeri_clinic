@@ -8,7 +8,7 @@ const createToken = (id) => {
     // "2 days"
     // "10h"
     // "120" == "120ms"
-    expiresIn: "1h"
+    expiresIn: 60 * 15
     // 1 hour of expiration => expiresIn: 60 * 60
     // exp: Math.floor(Date.now() / 1000) + 60 * 60
   });
@@ -53,7 +53,7 @@ module.exports.forgetPasswordController = async (req, res) => {
         res.cookie("MontazeriClinicJWT", token, {
           // maxAge is in scale of miliseconds
           // this time is 1h => 1000 * 60 * 60
-          maxAge: 1000 * 60 * 60
+          maxAge: 1000 * 60 * 15
         });
         res.status(200).json({ user });
       } else {

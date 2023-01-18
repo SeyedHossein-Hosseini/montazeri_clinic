@@ -125,10 +125,10 @@ module.exports.readUserImages = async (req, res, next) => {
         id_sick: ""
       });
 
-      // 60 min remaining to delete all images for the user with specific ID
+      // 15 min remaining to delete all images for the user with specific ID
       setTimeout(() => {
         deleteTempContent(documentNumber);
-      }, 1000 * 60 * 60);
+      }, 1000 * 60 * 15);
     })
     .catch((err) => {
       res.cookie("MontazeriClinicJWT", "", { maxAge: 1 }).render("login", {

@@ -3,9 +3,12 @@ let form = document.querySelector(".loginForm");
 let passwordError = document.getElementById("passwordError");
 let docNumberError = document.getElementById("docNumberError");
 let formError = document.getElementById("formError");
+let loginSpinner = document.querySelector(".loginSpinner");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  loginSpinner.classList.remove("d-none");
 
   try {
     let result = await fetch("/login", {
@@ -20,30 +23,30 @@ form.addEventListener("submit", async (e) => {
 
     if (data.user) {
       location.assign("/main");
-      console.log("successfully loged in");
       passwordError.innerHTML = "";
       docNumberError.innerHTML = "";
       formError.innerHTML = "";
+      loginSpinner.classList.add("d-none");
     }
     if (data.errors) {
       passwordError.innerHTML = data.errors.password;
       docNumberError.innerHTML = data.errors.docNumber;
       console.log(data);
+      loginSpinner.classList.add("d-none");
     }
   } catch (err) {
     console.log(err);
     formError.innerHTML = err;
+    loginSpinner.classList.add("d-none");
     return;
   }
-
-  //   console.log(form.docNumber.value);
-  //   console.log(form.loginPassword.value);
 });
 
 setTimeout(() => {
   passwordError.innerHTML = "";
   docNumberError.innerHTML = "";
   formError.innerHTML = "";
+  loginSpinner.classList.add("d-none");
 }, 3000);
 
 function closeMessageBox(e) {

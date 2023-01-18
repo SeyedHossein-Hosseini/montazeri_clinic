@@ -21,7 +21,6 @@
                 </div>
             </div>
             <div id="imagesSection">
-
                 <div id="imagesContainer" class="d-flex justify-content-center flex-wrap">
 
                     <% if (imageList==[]) { %>
@@ -53,9 +52,9 @@
         <script src="js/navbarSubMenu.js" ></script>
         <script src="js/downloadImage.js" ></script>
         <script> 
-        // reload page after 1h as the token expires in this time
+        // reload page after 15min as the token expires in this time
         setTimeout(() => {
             location.reload();
-        }, 1000 * 60 * 60);
+        }, 1000 * 60 * 15);
         </script>
         </section>

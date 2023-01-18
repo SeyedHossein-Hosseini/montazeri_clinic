@@ -10,7 +10,7 @@ const createToken = (id) => {
     // "2 days"
     // "10h"
     // "120" == "120ms"
-    expiresIn: "1h"
+    expiresIn: 60 * 15
     // 1 hour of expiration => expiresIn: 60 * 60
     // exp: Math.floor(Date.now() / 1000) + 60 * 60
   });
@@ -35,9 +35,6 @@ module.exports.authenticateUser = async (req, res) => {
   }
 
   try {
-    console.log(typeof docNumber);
-    // const user = await LocalUser.findByPk(docNumber);
-    // var USERId = JSON.parse(docNumber);
     LocalUser.findOne({ id: docNumber }, async function (error, user) {
       if (error) {
         alert("اروری در دیتابیس مونگو رخ داده است");
@@ -54,8 +51,8 @@ module.exports.authenticateUser = async (req, res) => {
                 const token = createToken(id);
                 res.cookie("MontazeriClinicJWT", token, {
                   // maxAge is in scale of miliseconds
-                  // this time is 1h => 1000 * 60 * 60
-                  maxAge: 1000 * 60 * 60
+                  // this time is 15 min => 1000 * 60 * 15
+                  maxAge: 1000 * 60 * 15
                 });
                 res.status(200).json({ user });
               } else {
@@ -89,8 +86,8 @@ module.exports.authenticateUser = async (req, res) => {
               const token = createToken(id);
               res.cookie("MontazeriClinicJWT", token, {
                 // maxAge is in scale of miliseconds
-                // this time is 1h => 1000 * 60 * 60
-                maxAge: 1000 * 60 * 60
+                // this time is 15min => 1000 * 60 * 15
+                maxAge: 1000 * 60 * 15
               });
               res.status(200).json({ user });
             } else {
@@ -104,18 +101,6 @@ module.exports.authenticateUser = async (req, res) => {
         }
       }
     });
-    // LocalUser.findById(docNumber, (err, result) => {
-    //   if (err) {
-    //     console.log(err);
-    //     // console.log("an error here");
-    //   } else {
-    //     if (result) {
-    //       console.log("user found");
-    //     } else {
-    //       console.log("not found");
-    //     }
-    //   }
-    // });
   } catch (err) {
     console.log(req.body);
     res
@@ -123,18 +108,6 @@ module.exports.authenticateUser = async (req, res) => {
       .json({ error: "یک ارور در دریافت داده از دیتابیس رخ داده است!!!" });
     console.log(err);
   }
-  // console.log(user.IDsick);
-
-  // console.log(user.FNamesick);
-  // console.log(user.LNamesick);
-  // const users = await User.sum("IDSick");
-  // const users = await User.min("IDSick");
-  // const users = await User.max("IDSick");
-  // const users = await User.findOne({ where: { IDSick: 1685 } });
-  // users.setDataValue("fullname", "Hossein");
-  // console.log("A User: ", JSON.stringify(users, null, 2));
-
-  // res.json(users);
 };
 
 module.exports.logout_get = (req, res) => {
@@ -144,53 +117,3 @@ module.exports.logout_get = (req, res) => {
 
   res.redirect("/login");
 };
-
-// LocalUser.findById(docNumber, async function (err, doc) {
-//   if (err) {
-//     const user = await User.findByPk(docNumber);
-//     if (user) {
-//       let pass1 = user.Tel;
-//       let pass2 = user.TelQuick;
-//       // remove all characters except numbers
-//       pass1 = pass1.replace(/\D/g, "");
-//       pass2 = pass2.replace(/\D/g, "");
-//       console.log("below output happens in authencticayteUserController -> ");
-//       console.log({ pass1 }, { pass2 });
-
-//       if (pass1 == "" && pass2 == "") {
-//         errors.password = "!!! هیچ شماره تماسی از شما در دیتابیس ثبت نشده است ";
-//         res.status(400).json({ errors });
-//         return;
-//       }
-//       if (user.Tel == password || user.TelQuick == password) {
-//         let id = user.IDsick.toString();
-//         const token = createToken(id);
-//         res.cookie("MontazeriClinicJWT", token, {
-//           // maxAge is in scale of miliseconds
-//           // this time is 1h => 1000 * 60 * 60
-//           maxAge: 1000 * 60 * 60
-//         });
-//         res.status(200).json({ user });
-//       } else {
-//         errors.password = "!!! کلمه ی عبور اشتباه است";
-//         res.status(400).json({ errors });
-//       }
-//     } else {
-//       errors.docNumber = "!!! این شماره پرونده یافت نشد ";
-//       res.status(400).json({ errors });
-//     }
-//   } else {
-//     bcrypt.compare(password, doc.password, (er, result) => {
-//       if (er) {
-//         res.json({
-//           docNumber: "",
-//           password: "!!! پسورد شما اشتباه است"
-//         });
-//         return;
-//       } else {
-//         res.status(200).json({ doc });
-//         return;
-//       }
-//     });
-//   }
-// });
