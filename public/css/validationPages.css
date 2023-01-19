@@ -109,7 +109,7 @@ body {
 #docNumber,
 #docNum,
 #loginPassword,
-#oldPassword,
+#confirmNewPassword,
 #newPassword, 
 #Tel {
     border: none;
@@ -121,7 +121,7 @@ body {
 }
 
 #docNumber:focus,
-#oldPassword:focus,
+#confirmNewPassword:focus,
 #newPassword:focus,
 #loginPassword:focus,
 #Tel:focus,

@@ -79,17 +79,25 @@ module.exports.readUserImages = async (req, res, next) => {
   getFileList(shareFolderPath())
     .then(async (files) => {
       let folderImageList = [];
-      let imageCount = 0;
+      // let imageCount = 0;
       for (const file of files) {
-        imageCount++;
+        // imageCount++;
+        // a default value for image format
+        // let imageFormat = "jpeg";
         if (
           file.includes(".jpg") ||
           file.includes(".png") ||
           file.includes(".jpeg")
         ) {
-          const data = readFileSync(file);
-          // console.log({ file });
+          // file.includes(".jpg")
+          //   ? (imageFormat = "jpg")
+          //   : file.includes(".png")
+          //   ? (imageFormat = "png")
+          //   : (imageFormat = "jpeg");
 
+          const data = readFileSync(file);
+          console.log({ file });
+          let imageFileName = file.split("\\").pop();
           // preprocess filename to get the exact time of its released time
           let { year, month, day } = getImageReleasedTime(file);
           // let { year, month, day } = { year: "1300", month: "12", day: "30" };
@@ -100,17 +108,23 @@ module.exports.readUserImages = async (req, res, next) => {
           let imagePath = path.join(
             imageSaveFolder,
             documentNumber,
-            `${imageCount}.png`
+            `${imageFileName}`
           );
           writeFileSync(imagePath, data);
 
           let imagePathFront = path.join(
             "temp",
             documentNumber,
-            `${imageCount}.png`
+            `${imageFileName}`
           );
 
-          folderImageList.push({ imagePathFront, year, month, day });
+          folderImageList.push({
+            imagePathFront,
+            year,
+            month,
+            day,
+            imageFileName
+          });
         }
         // console.log(
         //   "======================================================================================"
@@ -125,10 +139,10 @@ module.exports.readUserImages = async (req, res, next) => {
         id_sick: ""
       });
 
-      // 15 min remaining to delete all images for the user with specific ID
+      // 60 min remaining to delete all images for the user with specific ID
       setTimeout(() => {
         deleteTempContent(documentNumber);
-      }, 1000 * 60 * 15);
+      }, 1000 * 60 * 60);
     })
     .catch((err) => {
       res.cookie("MontazeriClinicJWT", "", { maxAge: 1 }).render("login", {

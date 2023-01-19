@@ -15,13 +15,24 @@ const handleErrors = (errors) => {
   return _errors;
 };
 
+const getOldPassword = async (id) => {
+  let user = await User.findByPk(id);
+  if (user.Tel) {
+    return user.Tel;
+  } else if (user.TelQuick) {
+    return user.TelQuick;
+  }
+};
+
 module.exports.changePassword = async (req, res) => {
   const ID = await verifyToken(req);
   console.log({ ID });
 
   if (!ID) res.redirect("/login");
 
-  let { password, opassword } = req.body;
+  let opassword = await getOldPassword(ID);
+
+  let { password } = req.body;
 
   if (password.length < 6) {
     res.json({

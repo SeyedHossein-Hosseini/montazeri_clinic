@@ -31,7 +31,7 @@
                                     <!-- <span id="statusBadge">دیده نشده</span> -->
                                     <img src="<%= imageList[i].imagePathFront %>" width="100%" height="200px" id="teethImages" alt="teethImages">
                                     <p>
-                                        <i class="downloadBtn fa fa-download float-start m-3" onclick="downloadImage(this)"></i>
+                                        <i class="downloadBtn fa fa-download float-start m-3" data-filename="<%= imageList[i].imageFileName %>" onclick="downloadImage(this)"></i>
                                     <p class="float-end imageDate">
                                         <span>تاریخ انتشار:</span>
                                         <span id="day"><%= imageList[i].day %></span>
@@ -52,9 +52,9 @@
         <script src="js/navbarSubMenu.js" ></script>
         <script src="js/downloadImage.js" ></script>
         <script> 
-        // reload page after 15min as the token expires in this time
+        // reload page after 60min as the token expires in this time
         setTimeout(() => {
             location.reload();
-        }, 1000 * 60 * 15);
+        }, 1000 * 60 * 60);
         </script>
         </section>
