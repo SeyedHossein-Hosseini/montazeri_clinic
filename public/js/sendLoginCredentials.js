@@ -5,6 +5,8 @@ let docNumberError = document.getElementById("docNumberError");
 let formError = document.getElementById("formError");
 let loginSpinner = document.querySelector(".loginSpinner");
 
+let noImageFoundError = document.querySelector(".noImageFoundError");
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -40,14 +42,17 @@ form.addEventListener("submit", async (e) => {
     loginSpinner.classList.add("d-none");
     return;
   }
-});
 
-setTimeout(() => {
-  passwordError.innerHTML = "";
-  docNumberError.innerHTML = "";
-  formError.innerHTML = "";
-  loginSpinner.classList.add("d-none");
-}, 3000);
+  setTimeout(() => {
+    console.log(passwordError);
+    console.log("ggg");
+    passwordError.innerHTML = "";
+    docNumberError.innerHTML = "";
+    formError.innerHTML = "";
+    noImageFoundError.remove();
+    loginSpinner.classList.add("d-none");
+  }, 4000);
+});
 
 function closeMessageBox(e) {
   e.parentElement.remove();

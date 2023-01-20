@@ -4,6 +4,11 @@ const LocalUser = require("../models/LocalUser");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const {
+  deleteMobilePhonePrefix,
+  deletePhonePrefix
+} = require("../utils/deletePhonePrefix");
+
 const createToken = (id) => {
   let data = { time: Date(), id };
   return jwt.sign(data, process.env.SECRET_KEY, {
@@ -70,6 +75,10 @@ module.exports.authenticateUser = async (req, res) => {
             // remove all characters except numbers
             pass1 = pass1.replace(/\D/g, "");
             pass2 = pass2.replace(/\D/g, "");
+
+            pass1 = deletePhonePrefix(pass1);
+            pass2 = deleteMobilePhonePrefix(pass2);
+
             console.log(
               "below output happens in authencticayteUserController -> "
             );

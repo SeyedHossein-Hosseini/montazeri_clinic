@@ -56,16 +56,6 @@ const User = sequelize.define(
         throw new Error("Dont set a value for fullname");
       }
     }
-    // Password: {
-    //   type: DataTypes.STRING,
-    //   allowNull: false,
-    //   get() {
-    //     return "Now does not password";
-    //   },
-    //   set(value) {
-    //     this.setDataValue("Password", value);
-    //   }
-    // }
   },
   {
     tableName: "InfoSick",
