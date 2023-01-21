@@ -1,0 +1,41 @@
+.slider {
+    position: relative;
+}
+
+.slider img {
+    transition: 300ms ease-in-out all;
+}
+
+.nextSlider {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.prevSlider {
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.dots {
+    margin-top: 20px;
+}
+
+.dots i {
+    padding: 5px;
+    transition: 200ms ease-in-out;
+}
+
+.dots i:hover {
+    cursor: pointer;
+    color: rgb(159, 159, 159);
+}
+
+.dots i:focus {
+    color: black;
+}

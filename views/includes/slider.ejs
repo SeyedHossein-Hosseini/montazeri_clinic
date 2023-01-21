@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="css/slider.css" />
+
+<section class="slider_container">
+  <div class="slider">
+    <img
+      src="img/clinic.jpg"
+      class="rounded"
+      height="250px"
+      width="70%"
+      alt="clinic"
+    />
+    <i
+      class="fa fa-arrow-circle-left prevSlider"
+      onclick="prevSilder()"
+      style="font-size: 24px"
+    ></i>
+    <i
+      class="fa fa-arrow-circle-right nextSlider"
+      onclick="nextSilder()"
+      style="font-size: 24px"
+    ></i>
+  </div>
+  <div class="dots">
+    <i class="fa fa-circle" onclick="showImg(0)"></i>
+    <i class="fa fa-circle" onclick="showImg(1)"></i>
+    <i class="fa fa-circle" onclick="showImg(2)"></i>
+  </div>
+</section>
+
+<script>
+  let sliderImg = document.querySelector(".slider img");
+  const sliderImages = ["img/clinic.jpg", "img/clinic2.jpg", "img/clinic3.jpg"];
+  let counter = 0;
+
+  function putImage(index) {
+    sliderImg.src = sliderImages[index];
+  }
+
+  function showImg(i) {
+    putImage(i);
+    console.log(sliderImg.src);
+  }
+
+  function prevSilder() {
+    counter == 0 ? (counter = 2) : counter--;
+    putImage(counter);
+    console.log(sliderImg.src);
+  }
+
+  function nextSilder() {
+    counter == 2 ? (counter = 0) : counter++;
+    putImage(counter);
+    console.log(sliderImg.src);
+  }
+
+  function moveSlider() {
+    counter == 2 ? (counter = 0) : counter++;
+    putImage(counter);
+  }
+
+  setInterval(moveSlider, 5000);
+</script>
