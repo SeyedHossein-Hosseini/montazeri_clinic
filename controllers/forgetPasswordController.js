@@ -2,6 +2,11 @@ const User = require("../models/User");
 
 const jwt = require("jsonwebtoken");
 
+const {
+  deleteMobilePhonePrefix,
+  deletePhonePrefix
+} = require("../utils/deletePhonePrefix");
+
 const createToken = (id) => {
   let data = { time: Date(), id };
   return jwt.sign(data, process.env.SECRET_KEY, {
@@ -39,7 +44,9 @@ module.exports.forgetPasswordController = async (req, res) => {
       pass1 = pass1.replace(/\D/g, "");
       pass2 = pass2.replace(/\D/g, "");
 
-      console.log(user.Tel === pass1 || user.TelQuick === pass2);
+      pass1 = deletePhonePrefix(pass1);
+      pass2 = deleteMobilePhonePrefix(pass2);
+      // console.log(user.Tel === pass1 || user.TelQuick === pass2);
 
       if (pass1 == "" && pass2 == "") {
         errors.pass = " هیچ شماره تماسی از شما در دیتابیس ثبت نشده است !!!";

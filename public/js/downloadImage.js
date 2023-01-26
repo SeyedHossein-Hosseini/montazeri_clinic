@@ -4,6 +4,7 @@ const downloadImage = async (e) => {
   console.log(e.dataset.filename);
 
   let imageSrc = e.parentNode.previousElementSibling.src;
+  
   // console.log(e.parentNode.previousElementSibling.src);
   const image = await fetch(imageSrc);
   const imageBlob = await image.blob();

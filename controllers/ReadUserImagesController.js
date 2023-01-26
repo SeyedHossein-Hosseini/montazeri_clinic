@@ -54,7 +54,7 @@ module.exports.readUserImages = async (req, res, next) => {
     let sickPathImage = path.join(imageSaveFolder, sickID);
     if (existsSync(sickPathImage)) {
       rm(sickPathImage, { recursive: true }, (err) => {
-        if (err) throw err;
+        if (err) return;
       });
       console.log(`folder sick with id number ${sickID} deleted`);
     }
@@ -89,14 +89,9 @@ module.exports.readUserImages = async (req, res, next) => {
           file.includes(".png") ||
           file.includes(".jpeg")
         ) {
-          // file.includes(".jpg")
-          //   ? (imageFormat = "jpg")
-          //   : file.includes(".png")
-          //   ? (imageFormat = "png")
-          //   : (imageFormat = "jpeg");
-
+    
           const data = readFileSync(file);
-          console.log({ file });
+          // console.log({ file });
           let imageFileName = file.split("\\").pop();
           // preprocess filename to get the exact time of its released time
           let { year, month, day } = getImageReleasedTime(file);
@@ -108,14 +103,14 @@ module.exports.readUserImages = async (req, res, next) => {
           let imagePath = path.join(
             imageSaveFolder,
             documentNumber,
-            `${imageFileName}`
+            `${imageFileName}.webp`
           );
           writeFileSync(imagePath, data);
 
           let imagePathFront = path.join(
             "temp",
             documentNumber,
-            `${imageFileName}`
+            `${imageFileName}.webp`
           );
 
           folderImageList.push({

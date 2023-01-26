@@ -32,11 +32,21 @@ module.exports.changePassword = async (req, res) => {
 
   let opassword = await getOldPassword(ID);
 
-  let { password } = req.body;
+  let { password, confirmPassword } = req.body;
+
+  if (password !== confirmPassword) {
+    res.json({
+      confirmPass: "کلمه ی عبور و تکرار کلمه عبور یکسان نیستند",
+      pass: "",
+      id: "",
+      success: ""
+    });
+    return;
+  }
 
   if (password.length < 6) {
     res.json({
-      oldpassword: "",
+      confirmPass: "",
       pass: "پسورد جدید شما باید بیش از 6 رقم داشته باشد",
       id: "",
       success: ""
@@ -67,7 +77,7 @@ module.exports.changePassword = async (req, res) => {
           if (error) {
             const errors = handleErrors(error);
             res.json({
-              oldpassword: "",
+              confirmPass: "",
               pass: errors.password,
               id: errors.id,
               success: ""
@@ -75,31 +85,15 @@ module.exports.changePassword = async (req, res) => {
             return;
           } else {
             res.json({
-              oldpassword: "",
+              confirmPass: "",
               pass: "",
               id: "",
-              success: ".پسورد جدید شما به روز شد"
+              success: "پسورد جدید شما به روز شد"
             });
             console.log({ result });
           }
         }
       );
-    } else {
-      res.json({
-        oldpassword: "!!! پسورد قدیمی شما اشتباه است ",
-        pass: "",
-        id: "",
-        success: ""
-      });
-      return;
     }
-  } else {
-    res.json({
-      id: " !!! فردی با این شماره ی پرونده یافت نشد",
-      pass: "",
-      oldpassword: "",
-      success: ""
-    });
-    return;
   }
 };

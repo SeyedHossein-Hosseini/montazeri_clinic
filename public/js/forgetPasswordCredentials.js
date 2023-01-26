@@ -6,10 +6,11 @@ let TelError = document.getElementById("TelError");
 let docNumError = document.getElementById("docNumError");
 let formErr = document.getElementById("formErr");
 let errorMsg = document.querySelector(".errorMsg");
+let forgetPassSpinner = document.querySelector(".forgetPassSpinner");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-
+  forgetPassSpinner.classList.remove("d-none");
   try {
     let result = await fetch("/forget-password", {
       method: "POST",
@@ -23,6 +24,7 @@ form.addEventListener("submit", async (e) => {
 
     if (data.user) {
       location.assign("/changePassword");
+      forgetPassSpinner.classList.add("d-none");
       TelError.innerHTML = "";
       docNumError.innerHTML = "";
       formErr.innerHTML = "";
@@ -30,16 +32,21 @@ form.addEventListener("submit", async (e) => {
     if (data.errors) {
       TelError.innerHTML = data.errors.pass;
       docNumError.innerHTML = data.errors.docNum;
+      forgetPassSpinner.classList.add("d-none");
       console.log(data);
     }
   } catch (err) {
-    console.log(err);
+    forgetPassSpinner.classList.add("d-none");
     formErr.innerHTML = err;
     return;
   }
 
-  console.log(form.docNum.value);
-  console.log(form.Tel.value);
+  setTimeout(() => {
+    TelError.innerHTML = "";
+    docNumError.innerHTML = "";
+    formErr.innerHTML = "";
+  }, 4000);
+
+  // console.log(form.docNum.value);
+  // console.log(form.Tel.value);
 });
-
-
