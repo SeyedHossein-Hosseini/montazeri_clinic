@@ -49,7 +49,7 @@ form.addEventListener("submit", async (e) => {
     passwordError.innerHTML = "";
     docNumberError.innerHTML = "";
     formError.innerHTML = "";
-    noImageFoundError.remove();
+    // noImageFoundError.remove();
     loginSpinner.classList.add("d-none");
   }, 4000);
 });

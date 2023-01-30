@@ -9,6 +9,8 @@ const {
   deletePhonePrefix
 } = require("../utils/deletePhonePrefix");
 
+const { UserLoginDate, saveUserLoginDate } = require("../utils/getDate");
+
 const createToken = (id) => {
   let data = { time: Date(), id };
   return jwt.sign(data, process.env.SECRET_KEY, {
@@ -54,6 +56,11 @@ module.exports.authenticateUser = async (req, res) => {
                 console.log({ result });
                 let id = user.id.toString();
                 const token = createToken(id);
+
+                // time to login
+
+                const date = UserLoginDate();
+                saveUserLoginDate({ time: date, message: "login successful", page: "login", id: docNumber });
                 res.cookie("MontazeriClinicJWT", token, {
                   // maxAge is in scale of miliseconds
                   // this time is 15 min => 1000 * 60 * 15
@@ -61,6 +68,14 @@ module.exports.authenticateUser = async (req, res) => {
                 });
                 res.status(200).json({ user });
               } else {
+                const date = UserLoginDate();
+                saveUserLoginDate({
+                  time: date,
+                  message: "Incorrect password",
+                  page: "login",
+                  id: docNumber
+                });
+                console.log(date);
                 errors.password = "پسورد شما اشتباه است!!!";
                 res.status(400).json({ errors });
                 return;
@@ -79,12 +94,17 @@ module.exports.authenticateUser = async (req, res) => {
             pass1 = deletePhonePrefix(pass1);
             pass2 = deleteMobilePhonePrefix(pass2);
 
-            console.log(
-              "below output happens in authencticayteUserController -> "
-            );
             console.log({ pass1 }, { pass2 });
 
             if (pass1 == "" && pass2 == "") {
+              const date = UserLoginDate();
+              saveUserLoginDate({
+                time: date,
+                message: "No found phone in DB",
+                page: "login",
+                id: docNumber
+              });
+              console.log(date);
               errors.password =
                 "هیچ شماره تماسی از شما در دیتابیس ثبت نشده است!!!";
               res.status(400).json({ errors });
@@ -93,6 +113,14 @@ module.exports.authenticateUser = async (req, res) => {
             if (pass1 == password || pass2 == password) {
               let id = user.IDsick.toString();
               const token = createToken(id);
+              const date = UserLoginDate();
+              saveUserLoginDate({
+                time: date,
+                message: "Login successful",
+                page: "login",
+                id: docNumber
+              });
+              console.log(date);
               res.cookie("MontazeriClinicJWT", token, {
                 // maxAge is in scale of miliseconds
                 // this time is 15min => 1000 * 60 * 15
@@ -100,10 +128,25 @@ module.exports.authenticateUser = async (req, res) => {
               });
               res.status(200).json({ user });
             } else {
+              const date = UserLoginDate();
+              saveUserLoginDate({
+                time: date,
+                message: "Incorrect password",
+                page: "login",
+                id: docNumber
+              });
+              console.log(date);
               errors.password = " کلمه ی عبور اشتباه است!!!";
               res.status(400).json({ errors });
             }
           } else {
+            const date = UserLoginDate();
+            saveUserLoginDate({
+              time: date,
+              message: "No docNumber found",
+              page: "login",
+              id: docNumber
+            });
             errors.docNumber = "این شماره پرونده یافت نشد!!!";
             res.status(400).json({ errors });
           }
@@ -111,7 +154,14 @@ module.exports.authenticateUser = async (req, res) => {
       }
     });
   } catch (err) {
-    console.log(req.body);
+    const date = UserLoginDate();
+    saveUserLoginDate({
+      time: date,
+      message: "an error in fetching DB",
+      page: "login",
+      id: docNumber
+    });
+    console.log(date);
     res
       .status(400)
       .json({ error: "یک ارور در دریافت داده از دیتابیس رخ داده است!!!" });
