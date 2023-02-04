@@ -89,7 +89,6 @@ module.exports.readUserImages = async (req, res, next) => {
           file.includes(".png") ||
           file.includes(".jpeg")
         ) {
-    
           const data = readFileSync(file);
           // console.log({ file });
           let imageFileName = file.split("\\").pop();
@@ -105,6 +104,7 @@ module.exports.readUserImages = async (req, res, next) => {
             documentNumber,
             `${imageFileName}.webp`
           );
+          console.log(`images for user with id ${documentNumber} saved`);
           writeFileSync(imagePath, data);
 
           let imagePathFront = path.join(

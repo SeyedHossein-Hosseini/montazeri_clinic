@@ -7,6 +7,8 @@ let loginSpinner = document.querySelector(".loginSpinner");
 
 let noImageFoundError = document.querySelector(".noImageFoundError");
 
+
+
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 

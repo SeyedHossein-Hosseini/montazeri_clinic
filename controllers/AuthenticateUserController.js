@@ -96,7 +96,7 @@ module.exports.authenticateUser = async (req, res) => {
 
             console.log({ pass1 }, { pass2 });
 
-            if (pass1 == "" && pass2 == "") {
+            if (pass1 == "" && pass2 == "" ) {
               const date = UserLoginDate();
               saveUserLoginDate({
                 time: date,
@@ -106,7 +106,7 @@ module.exports.authenticateUser = async (req, res) => {
               });
               console.log(date);
               errors.password =
-                "هیچ شماره تماسی از شما در دیتابیس ثبت نشده است!!!";
+                "هیچ شماره تماسِی از شما در دیتابیس ثبت نشده است!!!";
               res.status(400).json({ errors });
               return;
             }

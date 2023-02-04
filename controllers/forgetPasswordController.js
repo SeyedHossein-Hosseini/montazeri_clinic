@@ -7,6 +7,8 @@ const {
   deletePhonePrefix
 } = require("../utils/deletePhonePrefix");
 
+const { UserLoginDate, saveUserLoginDate } = require("../utils/getDate");
+
 const createToken = (id) => {
   let data = { time: Date(), id };
   return jwt.sign(data, process.env.SECRET_KEY, {
@@ -49,11 +51,25 @@ module.exports.forgetPasswordController = async (req, res) => {
       // console.log(user.Tel === pass1 || user.TelQuick === pass2);
 
       if (pass1 == "" && pass2 == "") {
+        const date = UserLoginDate();
+        saveUserLoginDate({
+          time: date,
+          message: "no found phone number in clinic DB",
+          page: "forgetPassword",
+          id: docNum
+        });
         errors.pass = " هیچ شماره تماسی از شما در دیتابیس ثبت نشده است !!!";
         res.status(400).json({ errors });
         return;
       }
       if (pass === pass1 || pass === pass2) {
+        const date = UserLoginDate();
+        saveUserLoginDate({
+          time: date,
+          message: "password correct",
+          page: "forgetPassword",
+          id: docNum
+        });
         console.log("password correct");
         let id = user.IDsick.toString();
         const token = createToken(id);
@@ -64,14 +80,34 @@ module.exports.forgetPasswordController = async (req, res) => {
         });
         res.status(200).json({ user });
       } else {
+        const date = UserLoginDate();
+        saveUserLoginDate({
+          time: date,
+          message: "password is incorrect",
+          page: "forgetPassword",
+          id: docNum
+        });
         errors.pass = "کلمه ی عبور اشتباه است !!!";
         res.status(400).json({ errors });
       }
     } else {
+      const date = UserLoginDate();
+      saveUserLoginDate({
+        time: date,
+        message: "sickID not found",
+        page: "forgetPassword",
+        id: docNum
+      });
       errors.docNum = "این شماره پرونده یافت نشد !!!";
       res.status(400).json({ errors });
     }
   } catch (err) {
+    saveUserLoginDate({
+      time: date,
+      message: "an error happend in fetching data from DB",
+      page: "forgetPassword",
+      id: docNum
+    });
     console.log(req.body);
     res
       .status(400)

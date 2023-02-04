@@ -46,6 +46,21 @@ const User = sequelize.define(
         }
       }
     },
+    meliCode: {
+      type: DataTypes.STRING,
+      unique: true,
+      get() {
+        const rawMeliCode = this.getDataValue("meliCode");
+        // contains letters in Tel
+        var regExp = /[a-zA-Z]/g;
+        if (!rawMeliCode || regExp.test(rawMeliCode) || rawMeliCode === null) {
+          return "";
+          // throw new Error(`Tel should consists only of numbers !!!!`);
+        } else {
+          return rawMeliCode;
+        }
+      }
+    },
 
     fullname: {
       type: DataTypes.VIRTUAL,

@@ -5,6 +5,8 @@ const bcrypt = require("bcrypt");
 
 const { verifyToken } = require("../utils/verifyToken");
 
+const { UserLoginDate, saveUserLoginDate } = require("../utils/getDate");
+
 const handleErrors = (errors) => {
   let _errors = { id: "", password: "" };
 
@@ -35,6 +37,13 @@ module.exports.changePassword = async (req, res) => {
   let { password, confirmPassword } = req.body;
 
   if (password !== confirmPassword) {
+    const date = UserLoginDate();
+    saveUserLoginDate({
+      time: date,
+      message: "password and confirm password mismatch",
+      page: "changePassword",
+      id: ID
+    });
     res.json({
       confirmPass: "کلمه ی عبور و تکرار کلمه عبور یکسان نیستند",
       pass: "",
@@ -45,6 +54,13 @@ module.exports.changePassword = async (req, res) => {
   }
 
   if (password.length < 6) {
+    const date = UserLoginDate();
+    saveUserLoginDate({
+      time: date,
+      message: "password length should be more than 6 characters",
+      page: "changePassword",
+      id: ID
+    });
     res.json({
       confirmPass: "",
       pass: "پسورد جدید شما باید بیش از 6 رقم داشته باشد",
@@ -76,6 +92,13 @@ module.exports.changePassword = async (req, res) => {
         function (error, result) {
           if (error) {
             const errors = handleErrors(error);
+            const date = UserLoginDate();
+            saveUserLoginDate({
+              time: date,
+              message: "Error in updating password mongoDB",
+              page: "changePassword",
+              id: ID
+            });
             res.json({
               confirmPass: "",
               pass: errors.password,
@@ -84,6 +107,13 @@ module.exports.changePassword = async (req, res) => {
             });
             return;
           } else {
+            const date = UserLoginDate();
+            saveUserLoginDate({
+              time: date,
+              message: "password successfully changed",
+              page: "changePassword",
+              id: ID
+            });
             res.json({
               confirmPass: "",
               pass: "",

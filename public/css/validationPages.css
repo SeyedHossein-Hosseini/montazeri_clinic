@@ -19,6 +19,7 @@ body {
 .loginPage {
     width: 90%;
     min-width: 400px;
+    max-width: 1200px;
     height: 80vh;
     position: absolute;
     left: 50%;
@@ -30,6 +31,7 @@ body {
 .loginLayout {
     width: 100%;
     height: 100%;
+    max-width: 1200px;
 }
 
 #clinicInfo {
@@ -110,7 +112,9 @@ body {
 #docNum,
 #loginPassword,
 #confirmNewPassword,
+#loginPassword2,
 #newPassword, 
+#melicode,
 #Tel {
     border: none;
     border-bottom: #707070 1px solid;
@@ -124,13 +128,15 @@ body {
 #confirmNewPassword:focus,
 #newPassword:focus,
 #loginPassword:focus,
+#loginPassword2:focus,
+#meliCode:focus,
 #Tel:focus,
 #docNum:focus {
     border-bottom: #4b4b4b 2px solid;
 }
 
 
-.loginSubmit,
+.loginSubmit, .melicodeloginSubmit,
 .resetPassSubmit, .forgetPassSubmit {
     border: none;
     outline: none;
@@ -144,6 +150,7 @@ body {
 }
 
 .loginSubmit:hover,
+.melicodeloginSubmit:hover,
 .resetPassSubmit:hover {
     background-color: #2677f0;
 }
@@ -163,7 +170,7 @@ body {
 }
 
 
-#loginError {
+#loginError, #melicodeformError {
     font-size: 15px;
     margin-top: 8px;
     color: #FF1313;
